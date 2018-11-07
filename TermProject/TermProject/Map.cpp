@@ -13,43 +13,74 @@ Map::Map(int widthSize, int heightSize)
 
 void Map::CreateMap()
 {
-	mapData = new char*[height];
-	for(int i = 0; i < height; i++)
-		mapData[i] = new char[width];
+	int tempData[10][10] =
+	{
+		0,0,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,1,1,1,0,1,
+		1,1,0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,1,
+		1,1,1,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,
+		0,1,1,0,1,1,1,0,1,0,
+		0,0,1,0,1,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,0,0,
+		2,1,1,1,1,0,0,0,0,0,
+	};
+
+	mapData = new Node*[height];
+	for (int i = 0; i < height; i++)
+		mapData[i] = new Node[width];
 
 	// Initialize Map data
-	InitializeMap();
-}
-
-void Map::SetMapData(int xOffset, int yOffset, int value)
-{
-	mapData[yOffset][xOffset] = 1;
-}
-
-void Map::InitializeMap()
-{
-	for(int i = 0; i < height; i++)
+	for (int i = 0; i < height; i++)
 	{
-		for(int i2 = 0; i2 < width; i2++)
-			mapData[i][i2] = 0;
+		for (int i2 = 0; i2 < width; i2++)
+		{
+			mapData[i][i2].SetState(tempData[9-i][i2]);
+			mapData[i][i2].SetPosition(i2, i);
+
+			mapData[i][i2].AddNeighbour(GetNode(i2 - 1, i),0);
+			mapData[i][i2].AddNeighbour(GetNode(i2 + 1, i),1);
+			mapData[i][i2].AddNeighbour(GetNode(i2 , i-1),2);
+			mapData[i][i2].AddNeighbour(GetNode(i2 , i+1),3);
+		}
+	}
+
+	//InitializeMap();
+}
+
+Node* Map::GetNode(int x, int y) const
+{
+	if (x< width && y<height && x >= 0 && y >= 0)
+	{
+		return &mapData[y][x];
+	}
+	else
+	{
+		return NULL;
 	}
 }
 
-void Map::PrintMap(int* cLocation)
+Node** Map::GetMapData() const
 {
-	for(int i = cLocation[1] + 4; i >= cLocation[1] - 4; i--)
+	return mapData;
+}
+
+void Map::PrintMap(char x, char y) const
+{
+	for(int i = y + 4; i >= y - 4; i--)
 	{
 		if(i >= 0 && i < height)
 		{
-			for(int i2 = cLocation[0] - 4; i2 <= cLocation[0] + 4; i2++)
+			for(int i2 = x - 4; i2 <= x + 4; i2++)
 			{
 				if(i2 >= 0 && i2 < width)
 				{
-					if(mapData[i][i2] == 0)
+					if(mapData[i][i2].GetState() == 0)
 						cout << "бр";
-					else if(mapData[i][i2] == 1)
+					else if(mapData[i][i2].GetState() == 2)
 						cout << "б┌";
-					else
+					else if(mapData[i][i2].GetState() == 1)
 						cout << "бс";
 				}
 				else {cout << "  ";}

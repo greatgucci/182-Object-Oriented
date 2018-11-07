@@ -9,8 +9,9 @@ class GameManager
 public:
 	GameManager();		// Sets default values
 	void StartGame();	// Start the game
-
 	~GameManager();
+	Map* GetMap() const;
+	static GameManager* instance;//Singleton
 
 private:
 	// Data Declaration

@@ -1,14 +1,12 @@
 #pragma once
-
+#include "Node.h"
 class Map
 {
 public:
 	Map(int widthSize, int heightSize);
-
-	char GetMapDate(int xOffset, int yOffset);	// Get data
-	void SetMapData(int xOffset, int yOffset, int value);	// Set data
-	void InitializeMap();	// Initialize map data
-	void PrintMap(int* cLocation);	// Print Map data
+	Node** GetMapData() const;
+    Node* GetNode(int xOffset, int yOffset) const;	// Get data
+	void PrintMap(char x, char y) const;	// Print Map data
 	int* GetMapSize();	// Return Map's width and height
 
 	// Destructor
@@ -18,7 +16,7 @@ private:
 	// Size
 	int width, height;
 	// Data
-	char **mapData;		// 0 : empty, 1 : character, 2 : obstacle
+	Node **mapData;		// 0 : empty, 1 : character, 2 : obstacle
 	// Create Map
 	void CreateMap();
 };

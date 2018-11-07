@@ -1,14 +1,10 @@
 #pragma once
+#include "Entity.h"
 
-class Character
+//Player Class
+class Character : public Entity
 {
 public:
-	Character();
-	// Get and Set Location
-	int* GetCharacterLocation();
-	void AddCharacterOffset(int xOffset, int yOffset, int* moveLimit);
-
-private:
-	// Data
-	int* location;	// 0 : x, y : 1. *Each values can have between 0 ~ (mapSize - 1).
+	Character(Node* node);
+	
 };

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <conio.h>
 #include <Windows.h>
+#include "PathFinder.h"
 using namespace std;
 
 GameManager::GameManager()
@@ -13,14 +14,24 @@ GameManager::GameManager()
 	// Set map data
 	// Starting a game
 	StartGame();
+	instance = this;
 }
+
+GameManager* GameManager::instance = nullptr;
+
+Map* GameManager::GetMap() const
+{
+	return map;
+}
+
 
 void GameManager::StartGame()
 {
 	// Initialize data
 	map = new Map(10, 10);	// This map size will be changed by map file's size
-	character = new Character();
+	character = new Character(map->GetNode(0,0));
 
+	char cPos[2] = { 0 };
 
 	char inputKey = 0;
 
@@ -61,34 +72,37 @@ void GameManager::StartGame()
 			// Initialize data
 			system("cls");
 			cout << "before : " << currentTime - previousTime << endl;
+			
 			previousTime = clock();
 			currentTime = clock();
-			
+			cPos[0] = character->GetX();
+			cPos[1] = character->GetY();
+
 			// Move character
 			switch(inputKey)
 			{
 			case 'A':
 			case 'a':
 				// Move character
-				character->AddCharacterOffset(-1, 0, map->GetMapSize());
+				character->MoveToNode(map->GetNode(cPos[0]-1,cPos[1]));
 				break;
 
 			case 'D':
 			case 'd':
 				// Move character
-				character->AddCharacterOffset(1, 0, map->GetMapSize());
+				character->MoveToNode(map->GetNode(cPos[0] + 1, cPos[1]));
 				break;
 
 			case 'W':
 			case 'w':
 				// Move character
-				character->AddCharacterOffset(0, 1, map->GetMapSize());
+				character->MoveToNode(map->GetNode(cPos[0] , cPos[1]+1));
 				break;
 
 			case 'S':
 			case 's':
 				// Move character
-				character->AddCharacterOffset(0, -1, map->GetMapSize());
+				character->MoveToNode(map->GetNode(cPos[0], cPos[1]-1));
 				break;
 
 				// test for quiting game
@@ -98,18 +112,14 @@ void GameManager::StartGame()
 				break;
 			}
 			cout << "Input Key is : " << inputKey << endl;
+			cout << "C Pos : " << character->GetX() << " , " << character->GetY() << endl;
 
-			// Update Map data
-			map->InitializeMap();
-			int* cLocation = character->GetCharacterLocation();	// character location. 0 : x, 1 : y.
-			map->SetMapData(cLocation[0], cLocation[1], 1);	// Synchronize map's character location with real character location.
-			cout << "character location : " << cLocation[0] << " , " << cLocation[1] << endl;
-
-			// Update ObstacleList's data
+			// Update Enemies
 
 			// Print Map data
+			map->PrintMap(character->GetX(),character->GetY());
 			cout << "after : " << currentTime - previousTime << endl;
-			map->PrintMap(character->GetCharacterLocation());
+
 
 			inputKey = 0;
 		}
@@ -121,4 +131,5 @@ GameManager::~GameManager()
 	delete map;
 	delete character;
 	delete obstacleList;
+	instance = nullptr;
 }
