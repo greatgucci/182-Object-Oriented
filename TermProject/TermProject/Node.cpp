@@ -3,7 +3,10 @@ Node::Node()
 {
 	state = 0;
 }
-
+Node::~Node()
+{
+	delete[] neighbours;
+}
 char Node::GetState () const
 {
 	return state;

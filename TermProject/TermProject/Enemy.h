@@ -2,8 +2,9 @@
 #include "Entity.h"
 class Enemy : public Entity
 {
+protected :
+	bool Attack();
 public :
-	void Attack();
 	Enemy(Node *);
 	virtual void DoAct() = 0;
 };

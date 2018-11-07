@@ -12,3 +12,7 @@ void EnemyController::CommandAll()
 		(*iter)->DoAct();
 	}
 }
+EnemyController::~EnemyController()
+{
+	enemies.clear();
+}

@@ -14,6 +14,8 @@ public:
 	Map* GetMap() const;
 	static GameManager* instance;//Singleton
 	Node* GetCharacterNode();
+	void GameWin();
+	void GameOver();
 
 private:
 	// Data Declaration

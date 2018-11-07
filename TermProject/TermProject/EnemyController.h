@@ -11,6 +11,7 @@ private :
 	list<Enemy*> ::iterator iter;
 
 public:
+	~EnemyController();
 	void AddEnemy(Enemy* enemy);
 	void CommandAll();
 };

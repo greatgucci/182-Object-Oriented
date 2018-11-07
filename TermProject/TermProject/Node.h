@@ -7,7 +7,7 @@ class Node
 
 #pragma region  PathFinder
 	Node* prev;//for PathFinding
-	int distance;//for PathFinding;
+	short distance;//for PathFinding;
 	Node* neighbours[4];//for PathFinding;
 	char pathFindingState = 0; //0-> none , 1-> open , 2->closed
 #pragma endregion
@@ -16,6 +16,7 @@ class Node
 
 public:
 	Node();
+	~Node();
 	void SetPosition(char x, char y);
 	void SetState(char c);
 	 char GetX() const;

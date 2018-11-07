@@ -1,9 +1,9 @@
 #include "PathFinder.h"
 #include "GameManager.h"
 #include <math.h>
-#include <map>
-#include <list>
 #include <queue>
+#include <iostream>
+
 using namespace std;
 
  int PathFinder::CostToEnterTile(Node* v,Node* target)
@@ -19,7 +19,10 @@ using namespace std;
 			 return 999999;
 		 }
 	 }
-	 return 1;
+	 else
+	 {
+		 return 1;
+	 }
 }
 int PathFinder::CalculateDistance(Node* a, Node* b)
 {
@@ -54,7 +57,7 @@ Node* PathFinder::GeneratePath(Node* source, Node* target)
 	{
 		Node* current = openList.top();
 		openList.pop();
-		current->SetState(2);
+		current->SetPathState(2);
 
 		if (current == target)
 		{
@@ -66,7 +69,7 @@ Node* PathFinder::GeneratePath(Node* source, Node* target)
 
 			Node* v = current->GetNeighbour(i);
 			
-			if (v == nullptr || v->GetPathState()==2 || CostToEnterTile(current,v) == 999999)
+			if (v == nullptr || v->GetPathState()==2 || CostToEnterTile(v,target) == 999999)
 			{
 				continue;
 			}
@@ -90,7 +93,7 @@ Node* PathFinder::GeneratePath(Node* source, Node* target)
 	}
 
 	Node* now = target;
-	while (now != nullptr || now->GetPrev() != source)
+	while (now != nullptr && now->GetPrev() != source)
 	{
 		now = now->GetPrev();
 	}

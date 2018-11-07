@@ -21,10 +21,7 @@ GameManager::GameManager()
 
 GameManager* GameManager::instance = nullptr;
 
-Map* GameManager::GetMap() const
-{
-	return map;
-}
+
 
 void GameManager::MakeEnemies()
 {
@@ -141,7 +138,7 @@ void GameManager::StartGame()
 				break;
 			}
 			cout << "Input Key is : " << inputKey << endl;
-			cout << "C Pos : " << character->GetX() << " , " << character->GetY() << endl;
+			cout << "Pos : " << character->GetX() << " , " << character->GetY() << endl;
 
 			// Update Enemies
 			ec->CommandAll();
@@ -164,7 +161,21 @@ GameManager::~GameManager()
 	instance = nullptr;
 }
 
+Map* GameManager::GetMap() const
+{
+	return map;
+}
+
 Node* GameManager::GetCharacterNode()
 {
 	return map->GetNode(character->GetX(), character->GetY());
+}
+
+void GameManager::GameWin()
+{
+	//명선이형 구현~
+}
+void GameManager::GameOver()
+{
+	//명선이형 구현~
 }
