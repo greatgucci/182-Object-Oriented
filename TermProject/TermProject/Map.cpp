@@ -15,10 +15,10 @@ void Map::CreateMap()
 {
 	int tempData[10][10] =
 	{
-		0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,1,1,1,0,1,
+		0,0,4,0,0,0,0,0,0,0,
+		0,0,0,3,0,1,1,1,0,1,
 		1,1,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,1,
+		0,0,0,0,0,0,3,0,0,1,
 		1,1,1,0,0,0,0,0,0,0,
 		0,0,0,0,0,0,0,0,0,0,
 		0,1,1,0,1,1,1,0,1,0,
@@ -57,7 +57,7 @@ Node* Map::GetNode(int x, int y) const
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -68,20 +68,24 @@ Node** Map::GetMapData() const
 
 void Map::PrintMap(char x, char y) const
 {
-	for(int i = y + 4; i >= y - 4; i--)
+	for(int i = y + 10; i >= y - 10; i--)
 	{
 		if(i >= 0 && i < height)
 		{
-			for(int i2 = x - 4; i2 <= x + 4; i2++)
+			for(int i2 = x - 10; i2 <= x + 10; i2++)
 			{
 				if(i2 >= 0 && i2 < width)
 				{
-					if(mapData[i][i2].GetState() == 0)
+					if (mapData[i][i2].GetState() == 0)
 						cout << "бр";
-					else if(mapData[i][i2].GetState() == 2)
+					else if (mapData[i][i2].GetState() == 2)
 						cout << "б┌";
-					else if(mapData[i][i2].GetState() == 1)
+					else if (mapData[i][i2].GetState() == 1)
 						cout << "бс";
+					else if (mapData[i][i2].GetState() == 3)
+						cout << "@";
+					else if (mapData[i][i2].GetState() == 4)
+						cout << "#";
 				}
 				else {cout << "  ";}
 			}

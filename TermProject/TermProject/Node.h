@@ -40,15 +40,5 @@ public:
 class NodeCompare
 {
 public :
-	bool operator() (Node* a, Node* b)
-	{
-		if (a->GetDistance() > b->GetDistance())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	bool operator() (Node* a, Node* b);
 };

@@ -33,7 +33,7 @@ Node* PathFinder::GeneratePath(Node* source, Node* target)
 	}
 
 	Node** nodes = GameManager::instance->GetMap()->GetMapData();//ÃÊ±âÈ­
-	int* mapSize = GameManager::instance->GetMap()->GetMapSize();
+	int* mapSize = GameManager::instance->GetMap()->GetMapSize();//0-> width , 1->height
 	for (int i = 0; i < mapSize[1]; i++)
 	{
 		for (int j = 0; j < mapSize[0]; j++)

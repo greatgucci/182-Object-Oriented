@@ -3,10 +3,13 @@
 #include <conio.h>
 #include <Windows.h>
 #include "PathFinder.h"
+#include "Enemy.h"
+
 using namespace std;
 
 GameManager::GameManager()
 {
+	instance = this;
 	bIsEnded = false;
 	previousTime = clock();
 	currentTime = clock();
@@ -14,7 +17,6 @@ GameManager::GameManager()
 	// Set map data
 	// Starting a game
 	StartGame();
-	instance = this;
 }
 
 GameManager* GameManager::instance = nullptr;
@@ -24,11 +26,38 @@ Map* GameManager::GetMap() const
 	return map;
 }
 
+void GameManager::MakeEnemies()
+{
+	
+	int* siz = map->GetMapSize();//0 -> width, 1-> height
+	Node** d = map->GetMapData();
+
+	ec = new EnemyController();
+
+	for (int i = 0; i < siz[1]; i++)
+	{
+		for (int j = 0; j < siz[0]; j++)
+		{
+			if (d[i][j].GetState() == 3)
+			{
+				Enemy* e = (Enemy*)new Snake(&d[i][j]);
+				ec->AddEnemy(e);
+			}
+			else if (d[i][j].GetState() == 4)
+			{
+				Enemy* e = (Enemy*)new Bat(&d[i][j]);
+				ec->AddEnemy(e);
+			}
+		}
+	}
+}
 
 void GameManager::StartGame()
 {
 	// Initialize data
 	map = new Map(10, 10);	// This map size will be changed by map file's size
+	MakeEnemies();
+
 	character = new Character(map->GetNode(0,0));
 
 	char cPos[2] = { 0 };
@@ -115,6 +144,7 @@ void GameManager::StartGame()
 			cout << "C Pos : " << character->GetX() << " , " << character->GetY() << endl;
 
 			// Update Enemies
+			ec->CommandAll();
 
 			// Print Map data
 			map->PrintMap(character->GetX(),character->GetY());
@@ -132,4 +162,9 @@ GameManager::~GameManager()
 	delete character;
 	delete obstacleList;
 	instance = nullptr;
+}
+
+Node* GameManager::GetCharacterNode()
+{
+	return map->GetNode(character->GetX(), character->GetY());
 }

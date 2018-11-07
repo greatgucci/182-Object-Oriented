@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "PathFinder.h"
+#include "GameManager.h"
 void Enemy :: Attack()	//CHECK if Player is Near, if true then GameOver
 {
 
@@ -15,7 +16,7 @@ Snake::Snake(Node* node) : Enemy(node)
 }
 void Snake::DoAct() 	//PathFinder로 길찾기
 {
-	//MoveToNode(PathFinder::GeneratePath());
+	MoveToNode(PathFinder::GeneratePath(currentNode,GameManager::instance->GetCharacterNode()));
 }
 #pragma endregion
 

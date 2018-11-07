@@ -60,5 +60,17 @@ char Node::GetPathState()
 {
 	return pathFindingState;
 }
+
+bool NodeCompare::operator() (Node*a, Node* b)
+{
+	if (a->GetDistance() > b->GetDistance())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 #pragma endregion
 
