@@ -12,6 +12,11 @@ int* Character::GetCharacterLocation()
 	return location;
 }
 
+void Character::SetCharacterLocation(int xOffset, int yOffset) {	// for exception handling change form "+=" to "=" by cho
+	location[0] = xOffset;
+	location[1] = yOffset;
+}
+
 void Character::AddCharacterOffset(int xOffset, int yOffset, int* moveLimit)
 {
 	location[0] += xOffset;

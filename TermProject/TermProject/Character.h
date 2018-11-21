@@ -7,6 +7,7 @@ public:
 	// Get and Set Location
 	int* GetCharacterLocation();
 	void AddCharacterOffset(int xOffset, int yOffset, int* moveLimit);
+	void SetCharacterLocation(int xOffset, int yOffset);
 
 private:
 	// Data
