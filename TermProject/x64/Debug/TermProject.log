@@ -1,0 +1,4 @@
+﻿  MainSource.cpp
+d:\대학교 자료\2018-2학기\객체지향프로그래밍\과제\termproject\termproject\multipleconsoles_src\consolelogger.h(219): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+d:\대학교 자료\2018-2학기\객체지향프로그래밍\과제\termproject\termproject\mainsource.cpp(167): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+  TermProject.vcxproj -> D:\대학교 자료\2018-2학기\객체지향프로그래밍\과제\TermProject\x64\Debug\TermProject.exe
