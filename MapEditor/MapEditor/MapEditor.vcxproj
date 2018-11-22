@@ -117,17 +117,17 @@
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EditMap.cpp" />
-    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MainSource.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapEditor.cpp" />
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="EditMap.h" />
-    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapEditor.h" />
+    <ClInclude Include="Node.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
