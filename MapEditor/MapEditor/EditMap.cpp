@@ -33,7 +33,6 @@ EditMap::EditMap(Map* oldMap) {
 
 void EditMap::EditFile() {
 	editEnded = false;
-
 	system("cls");
 
 	//input
@@ -42,8 +41,9 @@ void EditMap::EditFile() {
 	inputCursor = new Character();
 
 	system("cls");
-	int currentState = 0;
-	int previousState = 0;
+	Node currentState;
+	Node previousState;
+	Node tempNode;
 
 	tempLocation = new int[2];
 	currentLocation = inputCursor->GetCharacterLocation();
@@ -72,22 +72,22 @@ void EditMap::EditFile() {
 
 		//save state
 		if (inputKey == '0') {										//0 : blank
-			currentState = 0;
+			currentState.SetState(0);
 		}
 		else if (inputKey == '1') {									//1 : wall
-			currentState = 1;
+			currentState.SetState(1);
 		}
 		else if (inputKey == '2') {									//2 : character
-			currentState = 2;
+			currentState.SetState(2);
 		}
 		else if (inputKey == '3') {									//3 : portal
-			currentState = 3;
+			currentState.SetState(3);
 		}
 		else if (inputKey == '4') {									//4 ~ 9 : enemy ÀÏ´Ü 45¸¸
-			currentState = 4;
+			currentState.SetState(4);
 		}
 		else if (inputKey == '5') {
-			currentState = 5;
+			currentState.SetState(5);
 		}
 
 		editorMap->SetMapData(currentLocation[0], currentLocation[1], currentState);
@@ -102,7 +102,7 @@ void EditMap::EditFile() {
 			// Move character
 			editorMap->SetMapData(currentLocation[0], currentLocation[1], previousState);
 			inputCursor->AddCharacterOffset(-1, 0, editorMap->GetMapSize());
-			previousState = editorMap->GetMapDate(currentLocation[0], currentLocation[1]);
+			previousState = (editorMap->GetMapData(currentLocation[0], currentLocation[1]));
 
 			break;
 		case 'D':
@@ -110,7 +110,7 @@ void EditMap::EditFile() {
 			// Move character
 			editorMap->SetMapData(currentLocation[0], currentLocation[1], previousState);
 			inputCursor->AddCharacterOffset(1, 0, editorMap->GetMapSize());
-			previousState = editorMap->GetMapDate(currentLocation[0], currentLocation[1]);
+			previousState = (editorMap->GetMapData(currentLocation[0], currentLocation[1]));
 			break;
 
 		case 'W':
@@ -118,7 +118,7 @@ void EditMap::EditFile() {
 			// Move character
 			editorMap->SetMapData(currentLocation[0], currentLocation[1], previousState);
 			inputCursor->AddCharacterOffset(0, 1, editorMap->GetMapSize());
-			previousState = editorMap->GetMapDate(currentLocation[0], currentLocation[1]);
+			previousState = editorMap->GetMapData(currentLocation[0], currentLocation[1]);
 			break;
 
 		case 'S':
@@ -126,7 +126,7 @@ void EditMap::EditFile() {
 			// Move character
 			editorMap->SetMapData(currentLocation[0], currentLocation[1], previousState);
 			inputCursor->AddCharacterOffset(0, -1, editorMap->GetMapSize());
-			previousState = editorMap->GetMapDate(currentLocation[0], currentLocation[1]);
+			previousState = (editorMap->GetMapData(currentLocation[0], currentLocation[1]));
 			break;
 
 		//save and delete state
@@ -134,17 +134,19 @@ void EditMap::EditFile() {
 		case 'J':
 			previousState = currentState;
 
-			if (currentState == 2) {
+			if (currentState.GetState() == 2) {
 				tempLocation = character->GetCharacterLocation();
 				if (tempLocation[0] != -1) {
-					editorMap->SetMapData(tempLocation[0], tempLocation[1], 0);
+					tempNode.SetState(0);
+					editorMap->SetMapData(tempLocation[0], tempLocation[1],tempNode);
 				}
 				character->SetCharacterLocation(currentLocation[0], currentLocation[1]);
 			}
-			else if (currentState == 3) {
+			else if (currentState.GetState() == 3) {
 				tempLocation = portal->GetCharacterLocation();
 				if (tempLocation[0] != -1) {
-					editorMap->SetMapData(tempLocation[0], tempLocation[1], 0);
+					tempNode.SetState(0);
+					editorMap->SetMapData(tempLocation[0], tempLocation[1], tempNode);
 				}
 				portal->SetCharacterLocation(currentLocation[0], currentLocation[1]);
 			}
@@ -152,7 +154,7 @@ void EditMap::EditFile() {
 			break;
 		case 'k':
 		case 'K':
-			previousState = 0;
+			previousState.SetState(0);
 			break;
 
 		//exit
@@ -172,7 +174,7 @@ void EditMap::EditFile() {
 	}
 
 
-	char** tempData = editorMap->GetData();
+	Node** tempData = editorMap->GetData();
 
 	
 }

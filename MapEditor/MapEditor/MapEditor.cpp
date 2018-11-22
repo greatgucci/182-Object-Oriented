@@ -63,7 +63,7 @@ vector<Map*> MapEditor::ReadFile() { //pointer map vector from file
 	vector<Map*> mapVector;
 
 	system("cls");
-
+	tempNode = new Node();
 	ifstream file("mapData.csv");
 
 	if (file.fail()) {
@@ -93,13 +93,17 @@ vector<Map*> MapEditor::ReadFile() { //pointer map vector from file
 				ss = istringstream(strVector.at(i2));
 				ss >> tempData;
 				tempData -= '0';
-				tempMap->SetMapData(i2, i, tempData);
+				tempNode->SetState(tempData);
+				cout << "?";
+				tempMap->SetMapData(i2, i, *tempNode);
 			}
 		}
 
 		mapVector.push_back(tempMap);
 	}
 	
+	
+
 	return mapVector;
 }
 
@@ -122,6 +126,7 @@ vector<string> MapEditor::StrSplit(string targetStr,char tokenizer){
 
 MapEditor::~MapEditor()
 {
+	delete tempNode;
 	delete tempMap;
 }
 

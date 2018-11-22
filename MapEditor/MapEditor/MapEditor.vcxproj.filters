@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="MainSource.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MapEditor.cpp">
@@ -33,21 +27,27 @@
     <ClCompile Include="EditMap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapEditor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="EditMap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
