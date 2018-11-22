@@ -11,6 +11,7 @@ Map::Map(int widthSize, int heightSize)
 	CreateMap();
 }
 
+//InitializeMap();
 void Map::CreateMap()
 {
 	char tempData[10][10] =
@@ -38,8 +39,6 @@ void Map::CreateMap()
 		{
 			mapData[i][i2].SetState(tempData[9-i][i2]);
 			mapData[i][i2].SetPosition(i2, i);
-
-<<<<<<< HEAD
 			mapData[i][i2].AddNeighbour(GetNode(i2 - 1, i),0);
 			mapData[i][i2].AddNeighbour(GetNode(i2 + 1, i),1);
 			mapData[i][i2].AddNeighbour(GetNode(i2 , i-1),2);
@@ -47,8 +46,7 @@ void Map::CreateMap()
 		}
 	}
 
-	//InitializeMap();
-=======
+	
 char Map::GetMapDate(int xOffset, int yOffset) {
 	return mapData[yOffset][xOffset];
 }
@@ -56,7 +54,6 @@ char Map::GetMapDate(int xOffset, int yOffset) {
 void Map::SetMapData(int xOffset, int yOffset, int value)
 {
 	mapData[yOffset][xOffset] = value;
->>>>>>> origin/map
 }
 
 Node* Map::GetNode(int x, int y) const
@@ -86,7 +83,6 @@ void Map::PrintMap(char x, char y) const
 			{
 				if(i2 >= 0 && i2 < width)
 				{
-<<<<<<< HEAD
 					if (mapData[i][i2].GetState() == 0)
 						cout << "¡à";
 					else if (mapData[i][i2].GetState() == 2)//Player
@@ -99,18 +95,7 @@ void Map::PrintMap(char x, char y) const
 						cout << "¡Ø";
 					else if (mapData[i][i2].GetState() == 10)//Goal
 						cout << "¡Ý";
-=======
-					if (mapData[i][i2] == 0)
-						cout << "¡à";
-					else if (mapData[i][i2] == 1)
-						cout << "¡á";
-					else if (mapData[i][i2] == 2)						
-						cout << "¡Ú";
-					else if (mapData[i][i2] == 3)
-						cout << "¡Ý";
-					else
-						cout << "¢Á";
->>>>>>> origin/map
+
 				}
 				else {cout << "  ";}
 			}
