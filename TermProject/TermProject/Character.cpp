@@ -3,9 +3,6 @@
 
 Character::Character(Node* node) : Entity(node)
 {
-<<<<<<< HEAD
-	num = 2;
-=======
 	location = new int[2];
 	location[0] = 0, location[1] = 0;
 }
@@ -29,5 +26,4 @@ void Character::AddCharacterOffset(int xOffset, int yOffset, int* moveLimit)
 	else if(location[0] > moveLimit[0] - 1) {location[0] =  moveLimit[0] - 1;}
 	if(location[1] < 0) {location[1] = 0;}
 	else if(location[1] > moveLimit[1] - 1) {location[1] =  moveLimit[1] - 1;}
->>>>>>> origin/map
 }

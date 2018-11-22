@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{AFBDE99F-E1D3-4EA2-A690-DD7452C4D5CB}</ProjectGuid>
     <RootNamespace>TermProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -124,11 +124,9 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MainSource.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapEditor.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="Obstacle.cpp" />
-    <ClCompile Include="EditMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -137,11 +135,9 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="MapEditor.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Obstacle.h" />
-    <ClInclude Include="EditMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
