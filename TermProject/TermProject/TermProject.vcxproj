@@ -125,13 +125,10 @@
     <ClCompile Include="MainSource.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapEditor.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PathFinder.cpp" />
-=======
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="EditMap.cpp" />
->>>>>>> origin/map
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
@@ -141,13 +138,10 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapEditor.h" />
-<<<<<<< HEAD
     <ClInclude Include="Node.h" />
     <ClInclude Include="PathFinder.h" />
-=======
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="EditMap.h" />
->>>>>>> origin/map
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
