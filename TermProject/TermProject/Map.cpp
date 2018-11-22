@@ -37,21 +37,21 @@ void Map::CreateMap()
 	{
 		for (int i2 = 0; i2 < width; i2++)
 		{
-			mapData[i][i2].SetState(tempData[9-i][i2]);
+			mapData[i][i2].SetState(tempData[9 - i][i2]);
 			mapData[i][i2].SetPosition(i2, i);
-			mapData[i][i2].AddNeighbour(GetNode(i2 - 1, i),0);
-			mapData[i][i2].AddNeighbour(GetNode(i2 + 1, i),1);
-			mapData[i][i2].AddNeighbour(GetNode(i2 , i-1),2);
-			mapData[i][i2].AddNeighbour(GetNode(i2 , i+1),3);
+			mapData[i][i2].AddNeighbour(GetNode(i2 - 1, i), 0);
+			mapData[i][i2].AddNeighbour(GetNode(i2 + 1, i), 1);
+			mapData[i][i2].AddNeighbour(GetNode(i2, i - 1), 2);
+			mapData[i][i2].AddNeighbour(GetNode(i2, i + 1), 3);
 		}
 	}
-
+}
 	
-char Map::GetMapDate(int xOffset, int yOffset) {
+Node Map::GetMapData(int xOffset, int yOffset) {
 	return mapData[yOffset][xOffset];
 }
 
-void Map::SetMapData(int xOffset, int yOffset, int value)
+void Map::SetMapData(int xOffset, int yOffset, Node value)
 {
 	mapData[yOffset][xOffset] = value;
 }
@@ -109,13 +109,13 @@ void Map::PrintMap()
 {
 	for (int i = height-1; i >= 0; i--){
 		for (int i2 = 0; i2 <= width-1; i2++){
-			if (mapData[i][i2] == 0)
+			if (mapData[i][i2].GetState() == 0)
 				cout << "¡à";
-			else if (mapData[i][i2] == 1)
+			else if (mapData[i][i2].GetState() == 1)
 				cout << "¡á";
-			else if (mapData[i][i2] == 2)
+			else if (mapData[i][i2].GetState() == 2)
 				cout << "¡Ú";
-			else if (mapData[i][i2] == 3)
+			else if (mapData[i][i2].GetState() == 3)
 				cout << "¡Ý";
 			else
 				cout << "¢Á";
@@ -132,7 +132,7 @@ int* Map::GetMapSize()
 	return size;
 }
 
-char** Map::GetData() {
+Node** Map::GetData() {
 	return mapData;
 }
 
@@ -141,7 +141,7 @@ int* Map::GetLocationOf(char data) {
 	location[0] = -1;
 	for (int i = height - 1; i >= 0; i--) {
 		for (int i2 = 0; i2 <= width - 1; i2++) {
-			if (mapData[i][i2] == data) {
+			if (mapData[i][i2].GetState() == data) {
 				location[0] = i2;
 				location[1] = i;
 			}

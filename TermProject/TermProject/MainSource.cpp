@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include "GameManager.h"
-#include "MapEditor.h"
 #include <conio.h>
 using namespace std;
 
@@ -23,7 +22,7 @@ int main()
 	}
 	else	// If Editing mode
 	{
-		MapEditor* mapEditor = new MapEditor();
+		//map editor;
 	}
 	
 	system("pause");
