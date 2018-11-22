@@ -39,6 +39,7 @@ void Map::CreateMap()
 			mapData[i][i2].SetState(tempData[9-i][i2]);
 			mapData[i][i2].SetPosition(i2, i);
 
+<<<<<<< HEAD
 			mapData[i][i2].AddNeighbour(GetNode(i2 - 1, i),0);
 			mapData[i][i2].AddNeighbour(GetNode(i2 + 1, i),1);
 			mapData[i][i2].AddNeighbour(GetNode(i2 , i-1),2);
@@ -47,6 +48,15 @@ void Map::CreateMap()
 	}
 
 	//InitializeMap();
+=======
+char Map::GetMapDate(int xOffset, int yOffset) {
+	return mapData[yOffset][xOffset];
+}
+
+void Map::SetMapData(int xOffset, int yOffset, int value)
+{
+	mapData[yOffset][xOffset] = value;
+>>>>>>> origin/map
 }
 
 Node* Map::GetNode(int x, int y) const
@@ -76,6 +86,7 @@ void Map::PrintMap(char x, char y) const
 			{
 				if(i2 >= 0 && i2 < width)
 				{
+<<<<<<< HEAD
 					if (mapData[i][i2].GetState() == 0)
 						cout << "¡à";
 					else if (mapData[i][i2].GetState() == 2)//Player
@@ -88,6 +99,18 @@ void Map::PrintMap(char x, char y) const
 						cout << "¡Ø";
 					else if (mapData[i][i2].GetState() == 10)//Goal
 						cout << "¡Ý";
+=======
+					if (mapData[i][i2] == 0)
+						cout << "¡à";
+					else if (mapData[i][i2] == 1)
+						cout << "¡á";
+					else if (mapData[i][i2] == 2)						
+						cout << "¡Ú";
+					else if (mapData[i][i2] == 3)
+						cout << "¡Ý";
+					else
+						cout << "¢Á";
+>>>>>>> origin/map
 				}
 				else {cout << "  ";}
 			}
@@ -97,11 +120,49 @@ void Map::PrintMap(char x, char y) const
 	}
 }
 
+void Map::PrintMap()
+{
+	for (int i = height-1; i >= 0; i--){
+		for (int i2 = 0; i2 <= width-1; i2++){
+			if (mapData[i][i2] == 0)
+				cout << "¡à";
+			else if (mapData[i][i2] == 1)
+				cout << "¡á";
+			else if (mapData[i][i2] == 2)
+				cout << "¡Ú";
+			else if (mapData[i][i2] == 3)
+				cout << "¡Ý";
+			else
+				cout << "¢Á";
+		}
+		cout << endl;
+	}
+}
+
+
 int* Map::GetMapSize()
 {
 	int* size = new int[2];
 	size[0] = width, size[1] = height;
 	return size;
+}
+
+char** Map::GetData() {
+	return mapData;
+}
+
+int* Map::GetLocationOf(char data) {
+	int* location = new int[2];
+	location[0] = -1;
+	for (int i = height - 1; i >= 0; i--) {
+		for (int i2 = 0; i2 <= width - 1; i2++) {
+			if (mapData[i][i2] == data) {
+				location[0] = i2;
+				location[1] = i;
+			}
+		}
+	}
+	return location;
 }
 
 Map::~Map()

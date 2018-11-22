@@ -39,6 +39,7 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\GTS\Entity</Filter>
     </ClCompile>
@@ -56,6 +57,10 @@
     </ClCompile>
     <ClCompile Include="Node.cpp">
       <Filter>Source Files\GTS</Filter>
+=======
+    <ClCompile Include="EditMap.cpp">
+      <Filter>Source Files</Filter>
+>>>>>>> origin/map
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +73,7 @@
     <ClInclude Include="GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Character.h">
       <Filter>Header Files\GTS\Entity</Filter>
     </ClInclude>
@@ -85,6 +91,10 @@
     </ClInclude>
     <ClInclude Include="PathFinder.h">
       <Filter>Header Files\GTS</Filter>
+=======
+    <ClInclude Include="EditMap.h">
+      <Filter>Header Files</Filter>
+>>>>>>> origin/map
     </ClInclude>
   </ItemGroup>
 </Project>
