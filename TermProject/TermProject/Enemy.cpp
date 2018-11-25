@@ -1,34 +1,40 @@
 #include "Enemy.h"
 #include "PathFinder.h"
 #include "GameManager.h"
-bool Enemy :: Attack()	//CHECK if Player is Near, if true then GameOver
+#include <math.h>
+
+void Enemy :: Attack()	//CHECK if Player is Near, if true then GameOver
 {
-	Node* v = GameManager::instance->GetMap()->GetNode(GetX() + 1, GetY());
-	if (v != nullptr && v->GetState() ==2 )
-	{
-		GameManager::instance->GameOver();
-		return true;
-	}
-	v = GameManager::instance->GetMap()->GetNode(GetX() - 1, GetY());
-	if (v != nullptr && v->GetState() == 2)
-	{
-		GameManager::instance->GameOver();
-		return true;
-	}
-	v = GameManager::instance->GetMap()->GetNode(GetX(), GetY()+1);
-	if (v != nullptr && v->GetState() == 2)
-	{
-		GameManager::instance->GameOver();
-		return true;
-	}
-	v = GameManager::instance->GetMap()->GetNode(GetX(), GetY()-1);
-	if (v != nullptr && v->GetState() == 2)
-	{
-		GameManager::instance->GameOver();
-		return true;
-	}
-	return false;
+	GameManager::instance->GameOver();
 }
+bool Enemy::CheckPlayer(char range)
+{
+	char pX = GameManager::instance->GetCharacterNode()->GetX();
+	char pY = GameManager::instance->GetCharacterNode()->GetY();
+	
+	char distance = abs(GetX() - pX) + abs(GetY() - pY);
+	
+	if (range <= distance)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+void Character::MoveToNode(Node *target)
+{
+	if (target == nullptr || target->GetState() != 0)//이동하려는칸이 빈칸이 아니라면 리턴
+	{
+		return;
+	}
+
+	currentNode->SetState(0);
+	currentNode = target;
+	currentNode->SetState(num);
+}
+
 Enemy::Enemy(Node* node) : Entity(node)
 {
 
@@ -40,8 +46,11 @@ Snake::Snake(Node* node) : Enemy(node)
 }
 void Snake::DoAct() 	//PathFinder로 길찾기
 {
-	Attack();
-	MoveToNode(PathFinder::GeneratePath(currentNode,GameManager::instance->GetCharacterNode()));
+	if (CheckPlayer(5))
+	{
+		Attack();
+		MoveToNode(PathFinder::GeneratePath(currentNode, GameManager::instance->GetCharacterNode()));
+	}
 }
 #pragma endregion
 
@@ -52,7 +61,10 @@ Bat::Bat(Node* node) : Enemy(node)
 }
 void Bat::DoAct()
 {
-	Attack();
+	if (CheckPlayer(1))
+	{
+		Attack();
+	}
 	switch (act)
 	{
 	case 0:

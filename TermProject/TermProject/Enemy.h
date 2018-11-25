@@ -3,7 +3,9 @@
 class Enemy : public Entity
 {
 protected :
-	bool Attack();
+	void Attack();
+	void MoveToNode(Node *target);
+	bool CheckPlayer(char c);
 public :
 	Enemy(Node *);
 	virtual void DoAct() = 0;

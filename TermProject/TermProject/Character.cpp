@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "Map.h"
+#include "GameManager.h"
 
 Character::Character(Node* node) : Entity(node)
 {
@@ -26,4 +27,28 @@ void Character::AddCharacterOffset(int xOffset, int yOffset, int* moveLimit)
 	else if(location[0] > moveLimit[0] - 1) {location[0] =  moveLimit[0] - 1;}
 	if(location[1] < 0) {location[1] = 0;}
 	else if(location[1] > moveLimit[1] - 1) {location[1] =  moveLimit[1] - 1;}
+}
+void Character::MoveToNode(Node *target)
+{
+	if (target == nullptr)//ÀÌµ¿ÇÏ·Á´ÂÄ­ÀÌ ºóÄ­ÀÌ ¾Æ´Ï¶ó¸é ¸®ÅÏ
+	{
+		return;
+	}
+
+	if (target->GetState() == 1)
+	{
+		MoveToNode(GameManager::instance->GetMap()->GetNode(0, 0));
+		return;
+	}
+	else if (target->GetState() == 3 || target->GetState() == 4)
+	{
+
+	}else if (target->GetState() == 10)
+	{
+		//GAMEWIN!!
+	}
+
+	currentNode->SetState(0);
+	currentNode = target;
+	currentNode->SetState(num);
 }

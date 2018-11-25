@@ -8,7 +8,7 @@ protected:
 	Node* currentNode;
 public :
 	Entity(Node* node);
-	virtual bool MoveToNode(Node *target);
+	virtual void MoveToNode(Node *target) = 0;
 	int GetX() const;
 	int GetY() const;
 };
