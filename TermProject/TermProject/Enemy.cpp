@@ -3,18 +3,18 @@
 #include "GameManager.h"
 #include <math.h>
 
-void Enemy :: Attack()	//CHECK if Player is Near, if true then GameOver
+void Enemy :: Attack()
 {
-	GameManager::instance->GameOver();
+	GameManager::instance->ResetPosition();
 }
 bool Enemy::CheckPlayer(char range)
 {
 	char pX = GameManager::instance->GetCharacterNode()->GetX();
 	char pY = GameManager::instance->GetCharacterNode()->GetY();
 	
-	char distance = abs(GetX() - pX) + abs(GetY() - pY);
+	char distance = abs(GetX() - pX) + abs(GetY() - pY);//Player와의 거리
 	
-	if (range <= distance)
+	if (distance <= range)
 	{
 		return true;
 	}
@@ -23,7 +23,7 @@ bool Enemy::CheckPlayer(char range)
 		return false;
 	}
 }
-void Character::MoveToNode(Node *target)
+void Enemy::MoveToNode(Node *target)
 {
 	if (target == nullptr || target->GetState() != 0)//이동하려는칸이 빈칸이 아니라면 리턴
 	{
@@ -46,9 +46,13 @@ Snake::Snake(Node* node) : Enemy(node)
 }
 void Snake::DoAct() 	//PathFinder로 길찾기
 {
-	if (CheckPlayer(5))
+	if (CheckPlayer(1))
 	{
 		Attack();
+	}
+
+	if (CheckPlayer(5))
+	{
 		MoveToNode(PathFinder::GeneratePath(currentNode, GameManager::instance->GetCharacterNode()));
 	}
 }
@@ -61,25 +65,58 @@ Bat::Bat(Node* node) : Enemy(node)
 }
 void Bat::DoAct()
 {
-	if (CheckPlayer(1))
-	{
-		Attack();
-	}
+	Node* target;
 	switch (act)
 	{
 	case 0:
-		MoveToNode(GameManager::instance->GetMap()->GetNode(GetX()+1, GetY()));
+		target = GameManager::instance->GetMap()->GetNode(GetX() + 1, GetY());
+		if (target == nullptr)
+		{
+			break;
+		}
+		else if (target->GetState() == 2)
+		{
+			Attack();
+		}
+		MoveToNode(target);
 		break;
 	case 1:
-		MoveToNode(GameManager::instance->GetMap()->GetNode(GetX(), GetY()-1));
+		 target = GameManager::instance->GetMap()->GetNode(GetX(), GetY()-1);
+		 if (target == nullptr)
+		 {
+			 break;
+		 }
+		 else if (target->GetState() == 2)
+		{
+			Attack();
+		}
+		MoveToNode(target);
 		//아래로 이동
 		break;
 	case 2:
-		MoveToNode(GameManager::instance->GetMap()->GetNode(GetX()-1, GetY()));
+		 target = GameManager::instance->GetMap()->GetNode(GetX() - 1, GetY());
+		 if (target == nullptr)
+		 {
+			 break;
+		 }
+		 else if (target->GetState() == 2)
+		{
+			Attack();
+		}
+		MoveToNode(target);
 		//왼쪽으로 이동
 		break;
 	case 3:
-		MoveToNode(GameManager::instance->GetMap()->GetNode(GetX(), GetY() + 1));
+		 target = GameManager::instance->GetMap()->GetNode(GetX(), GetY()+1);
+		 if (target == nullptr)
+		 {
+			 break;
+		 }
+		 else if (target->GetState() == 2)
+		{
+			Attack();
+		}
+		MoveToNode(target);
 		//위로 이동
 		break;
 	default:

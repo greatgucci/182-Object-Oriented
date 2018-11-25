@@ -16,6 +16,7 @@ public:
 	Node* GetCharacterNode();
 	void GameWin();
 	void GameOver();
+	void ResetPosition();
 
 private:
 	// Data Declaration

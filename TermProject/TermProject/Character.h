@@ -6,7 +6,6 @@ class Character : public Entity
 {
 public:
 	Character(Node* node);
-	Character();
 	// Get and Set Location
 	int* GetCharacterLocation();
 	void AddCharacterOffset(int xOffset, int yOffset, int* moveLimit);

@@ -179,3 +179,7 @@ void GameManager::GameOver()
 {
 	//명선이형 구현~
 }
+void GameManager::ResetPosition()
+{
+	character->MoveToNode(map->GetNode(0, 0));
+}

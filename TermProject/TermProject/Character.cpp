@@ -4,6 +4,7 @@
 
 Character::Character(Node* node) : Entity(node)
 {
+	num = 2;
 	location = new int[2];
 	location[0] = 0, location[1] = 0;
 }
@@ -35,14 +36,10 @@ void Character::MoveToNode(Node *target)
 		return;
 	}
 
-	if (target->GetState() == 1)
+	if (target->GetState() == 1 || target->GetState() == 3 || target->GetState() ==4)
 	{
 		MoveToNode(GameManager::instance->GetMap()->GetNode(0, 0));
 		return;
-	}
-	else if (target->GetState() == 3 || target->GetState() == 4)
-	{
-
 	}else if (target->GetState() == 10)
 	{
 		//GAMEWIN!!
