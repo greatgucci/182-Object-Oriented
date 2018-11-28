@@ -3,6 +3,9 @@
 class Enemy : public Entity
 {
 protected :
+/*
+	bool Attack();
+*/
 	void Attack();
 	void MoveToNode(Node *target);
 	bool CheckPlayer(char c);
@@ -16,6 +19,8 @@ class Snake : Enemy
 public :
 	Snake(Node*);
 	void DoAct();
+private :
+	bool bIsActivated;
 };
 class Bat :Enemy
 {

@@ -1,19 +1,18 @@
 #include "Enemy.h"
 #include "PathFinder.h"
 #include "GameManager.h"
-#include <math.h>
-
 void Enemy :: Attack()
 {
+	GameManager::instance->DecreaseLife();
 	GameManager::instance->ResetPosition();
 }
 bool Enemy::CheckPlayer(char range)
 {
 	char pX = GameManager::instance->GetCharacterNode()->GetX();
 	char pY = GameManager::instance->GetCharacterNode()->GetY();
-	
+
 	char distance = abs(GetX() - pX) + abs(GetY() - pY);//Player와의 거리
-	
+
 	if (distance <= range)
 	{
 		return true;
@@ -34,7 +33,6 @@ void Enemy::MoveToNode(Node *target)
 	currentNode = target;
 	currentNode->SetState(num);
 }
-
 Enemy::Enemy(Node* node) : Entity(node)
 {
 
@@ -43,18 +41,19 @@ Enemy::Enemy(Node* node) : Entity(node)
 Snake::Snake(Node* node) : Enemy(node)
 {
 	num = 3;
+	bIsActivated = false;
 }
 void Snake::DoAct() 	//PathFinder로 길찾기
 {
-	if (CheckPlayer(1))
+	if (!bIsActivated)
+	{
+		if(CheckPlayer(5)) {bIsActivated = true;}
+	}
+	else if (CheckPlayer(1))
 	{
 		Attack();
 	}
-
-	if (CheckPlayer(5))
-	{
-		MoveToNode(PathFinder::GeneratePath(currentNode, GameManager::instance->GetCharacterNode()));
-	}
+	else {MoveToNode(PathFinder::GeneratePath(currentNode, GameManager::instance->GetCharacterNode()));}
 }
 #pragma endregion
 
@@ -81,12 +80,12 @@ void Bat::DoAct()
 		MoveToNode(target);
 		break;
 	case 1:
-		 target = GameManager::instance->GetMap()->GetNode(GetX(), GetY()-1);
-		 if (target == nullptr)
-		 {
-			 break;
-		 }
-		 else if (target->GetState() == 2)
+		target = GameManager::instance->GetMap()->GetNode(GetX(), GetY()-1);
+		if (target == nullptr)
+		{
+			break;
+		}
+		else if (target->GetState() == 2)
 		{
 			Attack();
 		}
@@ -94,12 +93,12 @@ void Bat::DoAct()
 		//아래로 이동
 		break;
 	case 2:
-		 target = GameManager::instance->GetMap()->GetNode(GetX() - 1, GetY());
-		 if (target == nullptr)
-		 {
-			 break;
-		 }
-		 else if (target->GetState() == 2)
+		target = GameManager::instance->GetMap()->GetNode(GetX() - 1, GetY());
+		if (target == nullptr)
+		{
+			break;
+		}
+		else if (target->GetState() == 2)
 		{
 			Attack();
 		}
@@ -107,12 +106,12 @@ void Bat::DoAct()
 		//왼쪽으로 이동
 		break;
 	case 3:
-		 target = GameManager::instance->GetMap()->GetNode(GetX(), GetY()+1);
-		 if (target == nullptr)
-		 {
-			 break;
-		 }
-		 else if (target->GetState() == 2)
+		target = GameManager::instance->GetMap()->GetNode(GetX(), GetY()+1);
+		if (target == nullptr)
+		{
+			break;
+		}
+		else if (target->GetState() == 2)
 		{
 			Attack();
 		}

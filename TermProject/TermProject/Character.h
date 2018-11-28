@@ -6,13 +6,14 @@ class Character : public Entity
 {
 public:
 	Character(Node* node);
-	// Get and Set Location
-	int* GetCharacterLocation();
-	void AddCharacterOffset(int xOffset, int yOffset, int* moveLimit);
-	void SetCharacterLocation(int xOffset, int yOffset);
+	int GetLife() const;
+	void AddLife(int offset);
 	void MoveToNode(Node *target);
-	
+	int GetInitX() const;
+	int GetInitY() const;
+
 private:
-	// Data
-	int* location;	// 0 : x, y : 1. *Each values can have between 0 ~ (mapSize - 1).
+	int life;
+	int initX, initY;
+	
 };

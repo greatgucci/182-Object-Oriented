@@ -1,20 +1,19 @@
 #pragma once
 #include "Node.h"
+#include "Character.h"
 class Map
 {
 public:
 	Map(int widthSize, int heightSize);
 	Node** GetMapData() const;
-    Node* GetNode(int xOffset, int yOffset) const;	// Get data
-	void PrintMap(char x, char y) const;	// Print Map data
-	Node GetMapData(int xOffset, int yOffset);	// Get data
-	void SetMapData(int xOffset, int yOffset, Node value);	// Set data
-	void InitializeMap();	// Initialize map data
-	void PrintMap(int* cLocation); //Print map data for location
-	void PrintMap();	//Print All map
+    Node* GetNode(int x, int y) const;	// Get data
+	Node* FindNode(int stateValue) const;	// Find data
+	void PrintMap(char x, char y, Character* character);	// Print Map data
 	int* GetMapSize();	// Return Map's width and height
-	int* GetLocationOf(char data); //get location of special object
-	Node** GetData();
+	// Create Map
+	void CreateMap(char** readData);
+	// Select Map of files in directory (used in MainSrouce.cpp)
+	static Map* SelectMap();
 
 	// Destructor
 	~Map();
@@ -22,8 +21,7 @@ public:
 private:
 	// Size
 	int width, height;
+	bool bIsOddTiming;
 	// Data
 	Node **mapData;		// 0 : empty, 1 : character, 2 : obstacle
-	// Create Map
-	void CreateMap();
 };

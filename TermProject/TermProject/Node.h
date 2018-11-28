@@ -2,7 +2,7 @@
 #pragma once
 class Node
 {
-	char state;//0 = None , 1 = Block, 2 = Player ,3 = Snake , 4=Bat, 10=GameWin
+	char state;//0 = None , 1 = Block, 2 = Player ,3 = Snake , 4=Bat, 9=GameWin
 	char x, y;
 
 #pragma region  PathFinder
@@ -19,19 +19,19 @@ public:
 	~Node();
 	void SetPosition(char x, char y);
 	void SetState(char c);
-	 char GetX() const;
-	 char GetY() const;
-	 char GetState() const;
+	char GetX() const;
+	char GetY() const;
+	char GetState() const;
 
 #pragma region  PathFinder
-	 void SetPrev(Node* node);
-	 void SetDistance(int d);
-	 Node* GetPrev() const;
-	 int GetDistance() const;
-	 void AddNeighbour(Node*n , char c);
-	 Node* GetNeighbour(char count)const;
-	 void SetPathState(char c);
-	 char GetPathState();
+	void SetPrev(Node* node);
+	void SetDistance(int d);
+	Node* GetPrev() const;
+	int GetDistance() const;
+	void AddNeighbour(Node*n , char c);
+	Node* GetNeighbour(char count)const;
+	void SetPathState(char c);
+	char GetPathState();
 #pragma endregion
 
 
