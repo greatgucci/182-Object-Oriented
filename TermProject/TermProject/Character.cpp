@@ -5,30 +5,20 @@
 Character::Character(Node* node) : Entity(node)
 {
 	num = 2;
-	location = new int[2];
-	location[0] = 0, location[1] = 0;
+	life = 5;
+	initX = GetX(), initY = GetY();
 }
 
-int* Character::GetCharacterLocation()
+int Character::GetLife() const
 {
-	return location;
+	return life;
 }
 
-void Character::SetCharacterLocation(int xOffset, int yOffset) {	// for exception handling change form "+=" to "=" by cho
-	location[0] = xOffset;
-	location[1] = yOffset;
-}
-
-void Character::AddCharacterOffset(int xOffset, int yOffset, int* moveLimit)
+void Character::AddLife(int offset)
 {
-	location[0] += xOffset;
-	location[1] += yOffset;
-	// Adjust location
-	if(location[0] < 0) {location[0] = 0;}
-	else if(location[0] > moveLimit[0] - 1) {location[0] =  moveLimit[0] - 1;}
-	if(location[1] < 0) {location[1] = 0;}
-	else if(location[1] > moveLimit[1] - 1) {location[1] =  moveLimit[1] - 1;}
+	life += offset;
 }
+
 void Character::MoveToNode(Node *target)
 {
 	if (target == nullptr)//이동하려는칸이 빈칸이 아니라면 리턴
@@ -38,14 +28,31 @@ void Character::MoveToNode(Node *target)
 
 	if (target->GetState() == 1 || target->GetState() == 3 || target->GetState() ==4)
 	{
-		MoveToNode(GameManager::instance->GetMap()->GetNode(0, 0));
+		// Snake가 캐릭터 초기 위치에 있으면 버그 발생하므로 예외처리.
+		if(!(target->GetState() == 3 && target->GetX() == initX && target->GetY() == initY))
+		{
+			MoveToNode(GameManager::instance->GetMap()->GetNode(initX, initY));
+		}
 		return;
-	}else if (target->GetState() == 10)
+	}
+	else if (target->GetState() == 9)
 	{
 		//GAMEWIN!!
+		GameManager::instance->GameWin();
+		return;
 	}
 
 	currentNode->SetState(0);
 	currentNode = target;
 	currentNode->SetState(num);
+}
+
+int Character::GetInitX() const
+{
+	return initX;
+}
+
+int Character::GetInitY() const
+{
+	return initY;
 }

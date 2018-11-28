@@ -1,26 +1,26 @@
 #include "GameManager.h"
 #include <iostream>
+#include <fstream>
 #include <conio.h>
 #include <Windows.h>
 #include "PathFinder.h"
 #include "Enemy.h"
+#include "ConsoleController.h"
 
 using namespace std;
+#define SLOT_NAME TEXT("\\\\.\\mailslot\\data")
+GameManager* GameManager::instance = nullptr;
 
-GameManager::GameManager()
+GameManager::GameManager(Map* gotMap)
 {
 	instance = this;
 	bIsEnded = false;
 	previousTime = clock();
 	currentTime = clock();
-	// Get map data from file
-	// Set map data
+	map = gotMap;
 	// Starting a game
 	StartGame();
 }
-
-GameManager* GameManager::instance = nullptr;
-
 
 
 void GameManager::MakeEnemies()
@@ -52,60 +52,50 @@ void GameManager::MakeEnemies()
 void GameManager::StartGame()
 {
 	// Initialize data
-	map = new Map(10, 10);	// This map size will be changed by map file's size
 	MakeEnemies();
+	character = new Character(map->FindNode(2));
+	// Create New Console
+	PROCESS_INFORMATION pi;
+	ZeroMemory(&pi, sizeof(pi));
+	CreateConsole("RhythmWindow.exe", pi);
+	// Create Mailslot
+	HANDLE hMailSlot;
+	char rhythmData[4];
+	DWORD bytes;
+	hMailSlot = CreateMailslot(SLOT_NAME, 0, MAILSLOT_WAIT_FOREVER, NULL);
 
-	character = new Character(map->GetNode(0,0));
-
-	char cPos[2] = { 0 };
+	char cPos[2] = {0};
 
 	char inputKey = 0;
+	int tickTime = 100;
+	int currentTimeIndex = 0;
+	previousTime = clock();
 
+	map->PrintMap(character->GetX(),character->GetY(), character);
 	// Main Game
 	while(!bIsEnded)
 	{
+		// Get data from rhythm window program.
+		if(!ReadFile(hMailSlot, rhythmData, 3, &bytes, NULL))
+		{
+			cout << "Unable to read";
+			bIsEnded = true;
+		}
+		rhythmData[bytes/sizeof(char)] = NULL;
+
 		currentTime = clock();
 
-		/** when key is pressed in correct time */
-		if(currentTime - previousTime >= 400 && _kbhit())
+		if(rhythmData[0] == 1)
 		{
-			if(GetAsyncKeyState('A') & 0x8000 || GetAsyncKeyState('a') & 0x8000)
-			{
-				inputKey = 'A';
-			}
-			else if(GetAsyncKeyState('D') & 0x8000 || GetAsyncKeyState('d') & 0x8000)
-			{
-				inputKey = 'D';
-			}
-			else if(GetAsyncKeyState('W') & 0x8000 || GetAsyncKeyState('w') & 0x8000)
-			{
-				inputKey = 'W';
-			}
-			else if(GetAsyncKeyState('S') & 0x8000 || GetAsyncKeyState('s') & 0x8000)
-			{
-				inputKey = 'S';
-			}
-			// For test
-			else if(GetAsyncKeyState('Q') & 0x8000 || GetAsyncKeyState('q') & 0x8000)
-			{
-				inputKey = 'Q';
-			}
-		}
-
-		/** Iterate every 0.5 second */
-		if(currentTime - previousTime >= 500)
-		{
-			// Initialize data
 			system("cls");
-			cout << "before : " << currentTime - previousTime << endl;
-			
+
 			previousTime = clock();
 			currentTime = clock();
 			cPos[0] = character->GetX();
 			cPos[1] = character->GetY();
 
 			// Move character
-			switch(inputKey)
+			switch(rhythmData[1])
 			{
 			case 'A':
 			case 'a':
@@ -130,56 +120,81 @@ void GameManager::StartGame()
 				// Move character
 				character->MoveToNode(map->GetNode(cPos[0], cPos[1]-1));
 				break;
-
-				// test for quiting game
-			case 'Q':
-			case 'q':
-				bIsEnded = true;
-				break;
 			}
-			cout << "Input Key is : " << inputKey << endl;
-			cout << "Pos : " << character->GetX() << " , " << character->GetY() << endl;
 
 			// Update Enemies
 			ec->CommandAll();
 
 			// Print Map data
-			map->PrintMap(character->GetX(),character->GetY());
-			cout << "after : " << currentTime - previousTime << endl;
+			map->PrintMap(character->GetX(),character->GetY(), character);
 
-
-			inputKey = 0;
+			// For Calculating Score
+			currentTimeIndex++;
 		}
 	}
+	system("cls");
+	SetTextColor(15);
+	// Game end
+	if(bWin)
+	{
+		SetFont(15);
+		SetConsoleLocation(600, 400);
+		SetConsoleSize(40, 5);
+		SetTextColor(15);
+		cout << "WIN!" << endl << "Score : " << (2000 - currentTimeIndex*7) << endl;
+	}
+	else
+	{
+		SetFont(15);
+		SetConsoleLocation(600, 400);
+		SetConsoleSize(40, 5);
+		SetTextColor(15);
+		cout << "LOSE..." << endl;
+	}
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+	CloseHandle(hMailSlot);
 }
 
 GameManager::~GameManager()
 {
 	delete map;
 	delete character;
-	delete obstacleList;
+	//delete obstacleList;
 	instance = nullptr;
 }
 
+/** Public */
 Map* GameManager::GetMap() const
 {
 	return map;
 }
 
-Node* GameManager::GetCharacterNode()
+Node* GameManager::GetCharacterNode() const
 {
 	return map->GetNode(character->GetX(), character->GetY());
+}
+
+void GameManager::DecreaseLife()
+{
+	character->AddLife(-1);
+	if(character->GetLife() < 1) {GameOver();}
 }
 
 void GameManager::GameWin()
 {
 	//명선이형 구현~
+	bIsEnded = true;
+	bWin = true;
 }
 void GameManager::GameOver()
 {
 	//명선이형 구현~
+	bIsEnded = true;
+	bWin = false;
 }
+
 void GameManager::ResetPosition()
 {
-	character->MoveToNode(map->GetNode(0, 0));
+	character->MoveToNode(map->GetNode(character->GetInitX(), character->GetInitY()));
 }
