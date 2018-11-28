@@ -40,7 +40,6 @@ void EditMap::EditFile() {
 
 	inputCursor = new Character();
 
-	system("cls");
 	Node currentState;
 	Node previousState;
 	Node tempNode;
@@ -49,7 +48,7 @@ void EditMap::EditFile() {
 	currentLocation = inputCursor->GetCharacterLocation();
 
 	while (!editEnded) {	//q
-
+		system("cls");
 
 
 		cout << endl;
@@ -59,7 +58,7 @@ void EditMap::EditFile() {
 		cout << "d : right" << "\t3. portal" << endl;
 		cout << "\t\t" << "4~?. enemy" << endl << endl;
 		cout << "j : save state\tk : delete state" << endl;
-		cout << "q : save and exit" << endl;
+		cout << "q : save and exit editor" << endl;
 
 		currentLocation = inputCursor->GetCharacterLocation();
 		cout << "x : " << currentLocation[0] << "\ty : " << currentLocation[1] << endl << endl;
@@ -162,21 +161,15 @@ void EditMap::EditFile() {
 		case 'Q':
 			editEnded = true;
 			break;
-
-
 		}
 
 
 		editorMap->SetMapData(currentLocation[0], currentLocation[1], currentState);
 
-		system("cls");
+		
 		inputKey = 0;
 	}
-
-
 	Node** tempData = editorMap->GetData();
-
-	
 }
 
 Map* EditMap::GetMap() {

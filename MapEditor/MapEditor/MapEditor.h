@@ -16,18 +16,17 @@ class MapEditor
 
 public:
 	MapEditor();
-	void SelectMenu();	//menu
 	vector<string> StrSplit(string targetStr, char tokenizer); //string tokenizer
-	vector<Map*> ReadFile(); //map* pointer vector from file
-	void WriteFile(vector<Map*> mapList); // write file
-	void FileControlMenu();
+	void ReadFile(); //map* pointer vector from file
+	int FileControlMenu();
+	void SaveFile();
 	~MapEditor();
 
 private:
-	
 	bool editEnded;
 	EditMap* newMap;
 	Map* tempMap;
-	vector<Map*> mapList;
 	Node* tempNode;
+	vector<Map*> mapList;
+	vector<string> fileNameList;
 };
