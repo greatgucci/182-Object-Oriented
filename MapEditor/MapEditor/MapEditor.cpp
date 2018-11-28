@@ -3,56 +3,149 @@ using namespace std;
 
 MapEditor::MapEditor()
 {
-	SelectMenu(); //menu
+	ReadFile();
+	if(FileControlMenu()); //menu
+		cout << "file edit completed";
 }
 
-void MapEditor::SelectMenu() {
-	mapList = ReadFile();
-	char selectMenu;
+
+int MapEditor::FileControlMenu() {
+	vector<Map*>::iterator iterMap;
+	vector<Map*>::iterator iterTempMap;
+	vector<string>::iterator iterStr;
+	string tempMapName;
+	iterMap = mapList.begin();
+	iterStr = fileNameList.begin();
+	if (iterMap == mapList.end()) {
+		cout << "no map data";
+		return 0;
+	}
+
+	char inputKey = 0;
+	editEnded = false;
 	system("cls");
-	
-	cout << "Welocmeto Map Editor Menu!" << endl << endl << "1. create new map" << endl << "2. map information" <<endl;
-	
-	selectMenu = _getch();
-	while (!(selectMenu == '1' || selectMenu == '2'))
-		selectMenu = _getch();
+	while (!editEnded) {
+		
 
-	if (selectMenu == '1') {//edit new map
-		newMap = new EditMap();
-		mapList.push_back(newMap->GetMap());
+		cout << "\nFile Control Menu!" << endl << endl;
+		
+
+		if ((iterMap) == mapList.end()) {
+			cout << endl << "No Maps in File" << endl;
+			cout << "1. create New Map";
+		}
+		else {
+			cout << "1. create map" << endl << "2. change map" << endl <<"delete map"<< endl<<endl;
+			cout << "a : previous map" << "\td : next map" << endl << "q : save and exit" << endl;
+			cout << endl << "map name : " << *iterStr << endl << endl;
+		}
+
+		
+		
+		
+		tempMap = (*iterMap);
+		tempMap->PrintMap();
+		cout << endl;
+
+		
+		if (inputKey == '1') {
+			newMap = new EditMap();
+			cout << "create map's name : ";
+			cin >> tempMapName;
+			mapList.push_back(newMap->GetMap());
+			fileNameList.push_back(tempMapName+".csv");
+			FileControlMenu();
+		}
+		else if (inputKey == '2') {//edit new map
+
+			newMap = new EditMap(tempMap);
+			iterMap = mapList.erase(iterMap);
+			iterMap = mapList.insert(iterMap, newMap->GetMap());
+		}
+		else if (inputKey == '3') {
+			iterMap = mapList.erase(iterMap);
+			iterStr = fileNameList.erase(iterStr);
+			if (iterMap == mapList.end()) {
+			}
+
+		}
+
+		switch (inputKey) {
+		case 'A':
+		case 'a':
+			if (iterMap == mapList.begin()) {
+				cout << "this map is first map" << endl;
+			}
+			else {
+				iterMap--;
+				iterStr--;
+			}
+			break;
+		case 'D':
+		case 'd':
+			iterMap++;
+			iterStr++;
+			if (iterMap == mapList.end() || iterStr == fileNameList.end()) {
+				iterMap--;
+				iterStr--;
+				cout << "this map is lastest map" << endl;
+			}
+			break;
+		case 'q':
+		case 'Q':
+			SaveFile();
+			editEnded = true;
+			inputKey = 0;
+		}
+		
+		inputKey = _getch();
+		system("cls");
 	}
-	else {
-		FileControlMenu();//read maps and edit - not completed
-	}
 
-	WriteFile(mapList);
-
+	return 1;
 }
 
-void MapEditor::FileControlMenu() {
-	int fileNumber=0;
-	char selectMenu;
-	system("cls");
-
-	cout << "File Control Menu!" << endl << endl << "1. change map" << endl << "2. delete map" << endl << endl;
-
-	selectMenu = _getch();
-	while (!(selectMenu == '1' || selectMenu == '2' || selectMenu == '3'))
-		selectMenu = _getch();
-
-	if (selectMenu == '1') {//edit new map
-		newMap = new EditMap(mapList.at(fileNumber));
-
+void MapEditor::SaveFile() {
+	ofstream fileName("mapListData.txt");
+	vector<string>::iterator iterStr;
+	for (iterStr = fileNameList.begin(); iterStr != fileNameList.end(); iterStr++) {
+		fileName << *iterStr;
+		if (iterStr + 1 != fileNameList.end()) {
+			fileName << "\n";
+		}
 	}
-	else if (selectMenu == '2') {
-		FileControlMenu();//read maps and edit - not completed
-	}
-	else {
+
+
+	ofstream* mapFile;
+	Node** mapData;
+	int width, height;
+	char tempData;
+	
+	for (int i = 0; i < fileNameList.size(); i++) {
+		mapFile = new ofstream(fileNameList.at(i));
+		tempMap = mapList.at(i);
+		width = tempMap->GetMapSize()[0];
+		height = tempMap->GetMapSize()[1];
+		mapData = tempMap->GetMapData();
+		*mapFile << width <<"," << height<<"\n";
+
+		for (int i = height - 1; i >= 0; i--) {
+			for (int i2 = 0; i2 <= width - 1; i2++) {
+				tempData = mapData[i][i2].GetState();
+				tempData += '0';
+				*mapFile << tempData;
+				if (i2 != width) {
+					*mapFile << ',';
+				}
+			}
+			if (i != 0) {
+				*mapFile << '\n';
+			}
+		}
 	}
 }
 
-
-vector<Map*> MapEditor::ReadFile() { //pointer map vector from file
+void MapEditor::ReadFile() { //pointer map vector from file
 	int count = 0;
 	int xOffset;
 	int yOffset;
@@ -60,23 +153,36 @@ vector<Map*> MapEditor::ReadFile() { //pointer map vector from file
 	string tempStr;
 	istringstream ss;
 	vector<string> strVector;
-	vector<Map*> mapVector;
+
+	fileNameList.clear();
+	mapList.clear();
 
 	system("cls");
 	tempNode = new Node();
-	ifstream file("mapData.csv");
 
-	if (file.fail()) {
-		cout << "no map list file.";
-		system("pause");
+	ifstream fileList("mapListData.txt");
+	ifstream* file;
+
+	//file list 읽기
+	while (fileList.good()) {
+		if (fileList.fail()) {
+			cout << "no map list file.";
+			system("pause");
+		}
+		fileList >> tempStr;
+		fileNameList.push_back(tempStr);
 	}
 
-	cout << "Here is your map" << endl;
-	cout << count + 1 << " map" << "\n\n";
-
 	//map 읽기
-	while(file.good()){
-		file >> tempStr;
+	file = new ifstream(fileNameList.at(count));
+	while(file->good()){
+		
+		if (file->fail()) {
+			cout << "no map file.";
+			system("pause");
+		}
+
+		*file >> tempStr;
 		strVector = StrSplit(tempStr, ',');
 
 		ss = istringstream(strVector.at(0));
@@ -87,28 +193,25 @@ vector<Map*> MapEditor::ReadFile() { //pointer map vector from file
 		tempMap = new Map(xOffset, yOffset);
 
 		for (int i = yOffset - 1; i >= 0; --i) {
-			file >> tempStr;
+			*file >> tempStr;
 			strVector = StrSplit(tempStr, ',');
 			for (int i2 = 0; i2 < xOffset; i2++) {
 				ss = istringstream(strVector.at(i2));
 				ss >> tempData;
 				tempData -= '0';
 				tempNode->SetState(tempData);
-				cout << "?";
 				tempMap->SetMapData(i2, i, *tempNode);
 			}
 		}
 
-		mapVector.push_back(tempMap);
+		mapList.push_back(tempMap);
+		count++;
+		if (count >= fileNameList.size())
+			break;
+		file = new ifstream(fileNameList.at(count));
 	}
 	
 	
-
-	return mapVector;
-}
-
-void MapEditor::WriteFile(vector<Map*> mapList) {
-	//re-write file
 }
 
 vector<string> MapEditor::StrSplit(string targetStr,char tokenizer){
