@@ -44,35 +44,34 @@ Node** Map::GetMapData() const
 {
 	return mapData;
 }
-
-void Map::PrintMap(char x, char y) const
-{
-	for(int i = y + 4; i >= y - 4; i--)
-	{
-		if(i >= 0 && i < height)
-		{
-			for(int i2 = x - 4; i2 <= x + 4; i2++)
-			{
-				if(i2 >= 0 && i2 < width)
-				{
-					if (mapData[i][i2].GetState() == 0)
-						cout << "¡à";
-					else if (mapData[i][i2].GetState() == 2)//Player
-						cout << "¡Ú";
-					else if (mapData[i][i2].GetState() == 1)//Block
-						cout << "¡á";
-					else if (mapData[i][i2].GetState() == 3)//Snake
-						cout << "¡×";
-					else if (mapData[i][i2].GetState() == 4)//Bat
-						cout << "¡Ø";
-					else if (mapData[i][i2].GetState() == 10)//Goal
-						cout << "¡Ý";
-
-				}
-				else {cout << "  ";}
+void Map::PrintMap(Character* inputCursor){
+	int* currentLocation = inputCursor->GetCharacterLocation();
+	for (int i = height - 1; i >= 0; i--) {
+		for (int i2 = 0; i2 <= width - 1; i2++) {
+			if (currentLocation[0] == i2 && currentLocation[1]== i) {
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BLUE + BLACK * 16);
 			}
+			else {
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), WHITE + BLACK * 16);
+			}
+
+			if (mapData[i][i2].GetState() == 0)
+				cout << "¡à";
+			else if (mapData[i][i2].GetState() == 1)
+				cout << "¡á";
+			else if (mapData[i][i2].GetState() == 2)
+				cout << "¡Ú";
+			else if (mapData[i][i2].GetState() == 3)
+				cout << "¡Ý";
+			else if (mapData[i][i2].GetState() == 4) {
+				cout << "¡×";
+			}
+			else {
+				cout << "¡Ø";
+			}
+
 		}
-		else {cout << "  ";}
+
 		cout << endl;
 	}
 }
@@ -89,9 +88,15 @@ void Map::PrintMap()
 				cout << "¡Ú";
 			else if (mapData[i][i2].GetState() == 3)
 				cout << "¡Ý";
-			else
-				cout << "¢Á";
+			else if (mapData[i][i2].GetState() == 4){				
+				cout << "¡×";
+			}
+			else {
+				cout << "¡Ø";
+			}
+		
 		}
+
 		cout << endl;
 	}
 }
