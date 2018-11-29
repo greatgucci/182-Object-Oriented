@@ -26,6 +26,7 @@ EditMap::EditMap(Map* oldMap) {
 	portal = new Character();
 	tempLocation = editorMap->GetLocationOf(2);
 	character->SetCharacterLocation(tempLocation[0], tempLocation[1]);
+	tempLocation = editorMap->GetLocationOf(3);
 	portal->SetCharacterLocation(tempLocation[0], tempLocation[1]);
 
 	EditFile();
@@ -44,10 +45,17 @@ void EditMap::EditFile() {
 	Node previousState;
 	Node tempNode;
 
+	previousState.SetPosition(0, 0);
+	previousState.SetState((editorMap->GetNode(0,0))->GetState());
+
+	currentState.SetPosition(0, 0);
+	currentState.SetState(0);
+
 	tempLocation = new int[2];
 	currentLocation = inputCursor->GetCharacterLocation();
 
 	while (!editEnded) {	//q
+		editorMap->SetMapData(currentLocation[0], currentLocation[1], currentState);
 		system("cls");
 
 
@@ -64,7 +72,7 @@ void EditMap::EditFile() {
 		cout << "x : " << currentLocation[0] << "\ty : " << currentLocation[1] << endl << endl;
 
 
-		editorMap->PrintMap();
+		editorMap->PrintMap(inputCursor);
 
 		cout << inputKey << endl;
 		inputKey = _getch();
@@ -88,10 +96,6 @@ void EditMap::EditFile() {
 		else if (inputKey == '5') {
 			currentState.SetState(5);
 		}
-
-		editorMap->SetMapData(currentLocation[0], currentLocation[1], currentState);
-
-
 
 		//move
 		switch (inputKey)
@@ -159,17 +163,16 @@ void EditMap::EditFile() {
 		//exit
 		case 'q':
 		case 'Q':
+			editorMap->SetMapData(currentLocation[0], currentLocation[1], previousState);
 			editEnded = true;
 			break;
 		}
 
-
-		editorMap->SetMapData(currentLocation[0], currentLocation[1], currentState);
+			
 
 		
 		inputKey = 0;
 	}
-	Node** tempData = editorMap->GetData();
 }
 
 Map* EditMap::GetMap() {

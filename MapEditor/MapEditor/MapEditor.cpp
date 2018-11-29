@@ -4,7 +4,7 @@ using namespace std;
 MapEditor::MapEditor()
 {
 	ReadFile();
-	if(FileControlMenu()); //menu
+	if(FileControlMenu()) //menu
 		cout << "file edit completed";
 }
 
@@ -35,7 +35,7 @@ int MapEditor::FileControlMenu() {
 			cout << "1. create New Map";
 		}
 		else {
-			cout << "1. create map" << endl << "2. change map" << endl <<"delete map"<< endl<<endl;
+			cout << "1. create map" << endl << "2. change map" << endl <<"3. delete map"<< endl<<endl;
 			cout << "a : previous map" << "\td : next map" << endl << "q : save and exit" << endl;
 			cout << endl << "map name : " << *iterStr << endl << endl;
 		}
@@ -134,7 +134,7 @@ void MapEditor::SaveFile() {
 				tempData = mapData[i][i2].GetState();
 				tempData += '0';
 				*mapFile << tempData;
-				if (i2 != width) {
+				if (i2 != width-1) {
 					*mapFile << ',';
 				}
 			}
