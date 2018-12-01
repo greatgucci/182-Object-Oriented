@@ -10,7 +10,10 @@ using namespace std;
 
 int main()
 {
-	
+	system("mode con: cols=40 lines=30");
+
+
+
 
 	MapEditor* mapEditor = new MapEditor();
 	return 0;
