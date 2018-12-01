@@ -94,6 +94,7 @@ int MapEditor::FileControlMenu() {
 		case 'q':
 		case 'Q':
 			SaveFile();
+			cout << "file save completed";
 			editEnded = true;
 			inputKey = 0;
 		}
