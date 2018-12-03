@@ -1,3 +1,1 @@
-Tutorial.csv
-Level1.csv
 sample.csv
