@@ -26,7 +26,7 @@ EditMap::EditMap(Map* oldMap) {
 	portal = new Character();
 	tempLocation = editorMap->GetLocationOf(2);
 	character->SetCharacterLocation(tempLocation[0], tempLocation[1]);
-	tempLocation = editorMap->GetLocationOf(3);
+	tempLocation = editorMap->GetLocationOf(9);
 	portal->SetCharacterLocation(tempLocation[0], tempLocation[1]);
 
 	EditFile();
@@ -45,10 +45,12 @@ void EditMap::EditFile() {
 	Node previousState;
 	Node tempNode;
 
-	previousState.SetPosition(0, 0);
-	previousState.SetState((editorMap->GetNode(0,0))->GetState());
+	inputCursor->SetCharacterLocation((editorMap->GetMapSize()[0]) / 2, (editorMap->GetMapSize()[1]) / 2);
 
-	currentState.SetPosition(0, 0);
+	previousState.SetPosition(inputCursor->GetCharacterLocation()[0], inputCursor->GetCharacterLocation()[1]);
+	previousState.SetState((editorMap->GetNode(inputCursor->GetCharacterLocation()[0], inputCursor->GetCharacterLocation()[1]))->GetState());
+
+	currentState.SetPosition(inputCursor->GetCharacterLocation()[0], inputCursor->GetCharacterLocation()[1]);
 	currentState.SetState(0);
 
 	tempLocation = new int[2];
@@ -93,8 +95,8 @@ void EditMap::EditFile() {
 		else if (inputKey == '4') {									//4 ~ 9 : enemy ÀÏ´Ü 45¸¸
 			currentState.SetState(4);
 		}
-		else if (inputKey == '5') {
-			currentState.SetState(5);
+		else if (inputKey == '9') {
+			currentState.SetState(9);
 		}
 
 		//move
@@ -145,7 +147,7 @@ void EditMap::EditFile() {
 				}
 				character->SetCharacterLocation(currentLocation[0], currentLocation[1]);
 			}
-			else if (currentState.GetState() == 3) {
+			else if (currentState.GetState() == 9) {
 				tempLocation = portal->GetCharacterLocation();
 				if (tempLocation[0] != -1) {
 					tempNode.SetState(0);

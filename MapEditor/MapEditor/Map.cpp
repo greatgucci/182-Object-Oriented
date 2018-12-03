@@ -62,12 +62,12 @@ void Map::PrintMap(Character* inputCursor){
 			else if (mapData[i][i2].GetState() == 2)
 				cout << "¡Ú";
 			else if (mapData[i][i2].GetState() == 3)
-				cout << "¡Ý";
+				cout << "¡Ø";
 			else if (mapData[i][i2].GetState() == 4) {
 				cout << "¡×";
 			}
 			else {
-				cout << "¡Ø";
+				cout << "¡Ý";
 			}
 
 		}
@@ -87,12 +87,12 @@ void Map::PrintMap()
 			else if (mapData[i][i2].GetState() == 2)
 				cout << "¡Ú";
 			else if (mapData[i][i2].GetState() == 3)
-				cout << "¡Ý";
+				cout << "¡Ø";
 			else if (mapData[i][i2].GetState() == 4){				
 				cout << "¡×";
 			}
 			else {
-				cout << "¡Ø";
+				cout << "¡Ý";
 			}
 		
 		}

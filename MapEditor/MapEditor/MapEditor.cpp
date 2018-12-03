@@ -38,14 +38,13 @@ int MapEditor::FileControlMenu() {
 			cout << "1. create map" << endl << "2. change map" << endl <<"3. delete map"<< endl<<endl;
 			cout << "a : previous map" << "\td : next map" << endl << "q : save and exit" << endl;
 			cout << endl << "map name : " << *iterStr << endl << endl;
+			tempMap = (*iterMap);
+			tempMap->PrintMap();
+			cout << endl;
 		}
-
 		
 		
-		
-		tempMap = (*iterMap);
-		tempMap->PrintMap();
-		cout << endl;
+		inputKey = _getch();
 
 		
 		if (inputKey == '1') {
@@ -66,6 +65,8 @@ int MapEditor::FileControlMenu() {
 			iterMap = mapList.erase(iterMap);
 			iterStr = fileNameList.erase(iterStr);
 			if (iterMap == mapList.end()) {
+				iterMap = mapList.begin();
+				iterStr = fileNameList.begin();
 			}
 
 		}
@@ -99,7 +100,7 @@ int MapEditor::FileControlMenu() {
 			inputKey = 0;
 		}
 		
-		inputKey = _getch();
+		
 		system("cls");
 	}
 
