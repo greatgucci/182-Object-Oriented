@@ -1,20 +1,22 @@
 #include "MapEditor.h"
 using namespace std;
 
-MapEditor::MapEditor()
-{
+MapEditor::MapEditor(){
+	//read file
 	ReadFile();
 	if(FileControlMenu()) //menu
 		cout << "file edit completed";
 }
 
-
+//file control menu
 int MapEditor::FileControlMenu() {
+	//map pointer vector
 	vector<Map*>::iterator iterMap;
-	vector<Map*>::iterator iterTempMap;
 	vector<string>::iterator iterStr;
 	string tempMapName;
 	iterMap = mapList.begin();
+
+	//file name list open check
 	iterStr = fileNameList.begin();
 	if (iterMap == mapList.end()) {
 		cout << "no map data";
@@ -24,16 +26,16 @@ int MapEditor::FileControlMenu() {
 	char inputKey = 0;
 	editEnded = false;
 	system("cls");
+
+	//file control loop
 	while (!editEnded) {
-		
-
 		cout << "\nFile Control Menu!" << endl << endl;
-		
-
+		//no maps in file
 		if ((iterMap) == mapList.end()) {
 			cout << endl << "No Maps in File" << endl;
 			cout << "1. create New Map";
 		}
+		//maps in file
 		else {
 			cout << "1. create map" << endl << "2. change map" << endl <<"3. delete map"<< endl<<endl;
 			cout << "a : previous map" << "\td : next map" << endl << "q : save and exit" << endl;
@@ -43,10 +45,10 @@ int MapEditor::FileControlMenu() {
 			cout << endl;
 		}
 		
-		
+		//get key
 		inputKey = _getch();
 
-		
+		//key 1 -> create map
 		if (inputKey == '1') {
 			newMap = new EditMap();
 			cout << "create map's name : ";
@@ -55,12 +57,13 @@ int MapEditor::FileControlMenu() {
 			fileNameList.push_back(tempMapName+".csv");
 			FileControlMenu();
 		}
-		else if (inputKey == '2') {//edit new map
-
+		//key 2 -> change map
+		else if (inputKey == '2') {
 			newMap = new EditMap(tempMap);
 			iterMap = mapList.erase(iterMap);
 			iterMap = mapList.insert(iterMap, newMap->GetMap());
 		}
+		//key 3 -> delete map
 		else if (inputKey == '3') {
 			iterMap = mapList.erase(iterMap);
 			iterStr = fileNameList.erase(iterStr);
@@ -71,6 +74,7 @@ int MapEditor::FileControlMenu() {
 
 		}
 
+		//move list
 		switch (inputKey) {
 		case 'A':
 		case 'a':
@@ -92,6 +96,7 @@ int MapEditor::FileControlMenu() {
 				cout << "this map is lastest map" << endl;
 			}
 			break;
+		//save and quit
 		case 'q':
 		case 'Q':
 			SaveFile();
@@ -107,9 +112,13 @@ int MapEditor::FileControlMenu() {
 	return 1;
 }
 
+
+//save file
 void MapEditor::SaveFile() {
 	ofstream fileName("mapListData.txt");
 	vector<string>::iterator iterStr;
+
+	//save file name list
 	for (iterStr = fileNameList.begin(); iterStr != fileNameList.end(); iterStr++) {
 		fileName << *iterStr;
 		if (iterStr + 1 != fileNameList.end()) {
@@ -123,6 +132,7 @@ void MapEditor::SaveFile() {
 	int width, height;
 	char tempData;
 	
+	//save map with .csv
 	for (int i = 0; i < fileNameList.size(); i++) {
 		mapFile = new ofstream(fileNameList.at(i));
 		tempMap = mapList.at(i);
@@ -147,6 +157,7 @@ void MapEditor::SaveFile() {
 	}
 }
 
+//read file
 void MapEditor::ReadFile() { //pointer map vector from file
 	int count = 0;
 	int xOffset;
@@ -216,6 +227,7 @@ void MapEditor::ReadFile() { //pointer map vector from file
 	
 }
 
+//csv를 읽기위한 string split 함수
 vector<string> MapEditor::StrSplit(string targetStr,char tokenizer){
 	vector<string> strResult;
 	istringstream iss(targetStr);
@@ -227,8 +239,7 @@ vector<string> MapEditor::StrSplit(string targetStr,char tokenizer){
 	return strResult;
 }
 
-
-
+//destructor
 MapEditor::~MapEditor()
 {
 	delete tempNode;

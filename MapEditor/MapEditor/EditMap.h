@@ -11,18 +11,18 @@ class EditMap {
 public:
 	EditMap(); //empty Map
 	EditMap(Map* oldMap); //file input
-	void EditFile();
-	Map* GetMap();
-	~EditMap();
+	void EditFile();//file editing
+	Map* GetMap();//return map
+	~EditMap();//destructor
 
 private:
-	Map* editorMap;
-	bool editEnded;
-	int width;
-	int height;
-	Character* inputCursor;
-	Character* character;
-	Character* portal;
-	int* tempLocation;
-	int* currentLocation;
+	Map* editorMap;//source map
+	bool editEnded;//loop ended
+	int width;//map size width
+	int height;//map size height
+	Character* inputCursor; //input cursor location
+	Character* character; //character
+	Character* portal; //portal
+	int* tempLocation; // temp location
+	int* currentLocation; // current location
 };

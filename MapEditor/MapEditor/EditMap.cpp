@@ -1,5 +1,6 @@
 #include "EditMap.h"
 
+//create map
 EditMap::EditMap() {
 	//width height
 	int width;
@@ -20,6 +21,7 @@ EditMap::EditMap() {
 	EditFile();
 }
 
+//change map
 EditMap::EditMap(Map* oldMap) {
 	editorMap = oldMap;
 	character = new Character();
@@ -32,6 +34,7 @@ EditMap::EditMap(Map* oldMap) {
 	EditFile();
 }
 
+//edit map
 void EditMap::EditFile() {
 	editEnded = false;
 	system("cls");

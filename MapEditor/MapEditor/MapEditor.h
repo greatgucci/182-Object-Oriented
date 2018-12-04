@@ -15,18 +15,18 @@ class MapEditor
 
 
 public:
-	MapEditor();
+	MapEditor(); //conductor
 	vector<string> StrSplit(string targetStr, char tokenizer); //string tokenizer
 	void ReadFile(); //map* pointer vector from file
-	int FileControlMenu();
-	void SaveFile();
-	~MapEditor();
+	int FileControlMenu(); //file menu
+	void SaveFile(); //save file
+	~MapEditor(); // destructor
 
 private:
-	bool editEnded;
-	EditMap* newMap;
-	Map* tempMap;
-	Node* tempNode;
-	vector<Map*> mapList;
-	vector<string> fileNameList;
+	bool editEnded; //loop ended
+	EditMap* newMap; // map
+	Map* tempMap; // temp map
+	Node* tempNode; // temp node
+	vector<Map*> mapList; // map list
+	vector<string> fileNameList; // file name list
 };

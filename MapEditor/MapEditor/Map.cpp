@@ -18,16 +18,19 @@ void Map::CreateMap()
 	for (int i = 0; i < height; i++)
 		mapData[i] = new Node[width];
 }
-	
+
+//get map data
 Node Map::GetMapData(int xOffset, int yOffset) {
 	return mapData[yOffset][xOffset];
 }
 
+//set map data
 void Map::SetMapData(int xOffset, int yOffset, Node value)
 {
 	mapData[yOffset][xOffset].SetState(value.GetState());
 }
 
+//get node
 Node* Map::GetNode(int x, int y) const
 {
 	if (x< width && y<height && x >= 0 && y >= 0)
@@ -40,10 +43,12 @@ Node* Map::GetNode(int x, int y) const
 	}
 }
 
+//get all map data
 Node** Map::GetMapData() const
 {
 	return mapData;
 }
+// print map with color point
 void Map::PrintMap(Character* inputCursor){
 	int* currentLocation = inputCursor->GetCharacterLocation();
 	for (int i = height - 1; i >= 0; i--) {
@@ -76,6 +81,7 @@ void Map::PrintMap(Character* inputCursor){
 	}
 }
 
+//print all map
 void Map::PrintMap()
 {
 	for (int i = height-1; i >= 0; i--){
@@ -101,7 +107,7 @@ void Map::PrintMap()
 	}
 }
 
-
+//get map size
 int* Map::GetMapSize()
 {
 	int* size = new int[2];
@@ -109,10 +115,7 @@ int* Map::GetMapSize()
 	return size;
 }
 
-Node** Map::GetData() {
-	return mapData;
-}
-
+//get location
 int* Map::GetLocationOf(char data) {
 	int* location = new int[2];
 	location[0] = -1;

@@ -12,17 +12,15 @@
 class Map
 {
 public:
-	Map();
-	Map(int widthSize, int heightSize);
-	Node** GetMapData() const;
+	Map(int widthSize, int heightSize); // conductor with size
+	Node** GetMapData() const; // return all node
     Node* GetNode(int xOffset, int yOffset) const;	// Get data
-	void PrintMap(Character* currentState);
+	void PrintMap(Character* currentState); //printmap with
 	Node GetMapData(int xOffset, int yOffset);	// Get data
 	void SetMapData(int xOffset, int yOffset, Node value);	// Set data
 	void PrintMap();	//Print All map
 	int* GetMapSize();	// Return Map's width and height
 	int* GetLocationOf(char data); //get location of special object
-	Node** GetData();
 
 	// Destructor
 	~Map();
